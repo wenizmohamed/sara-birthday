@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sara</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Intro */
+        #intro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 70%);
+            position: relative;
+        }
+
+        .name-container {
+            overflow: hidden;
+        }
+
+        .name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 20vw, 12rem);
+            font-weight: 400;
+            letter-spacing: 0.4em;
+            background: linear-gradient(135deg, #d4af37 0%, #f5e6a3 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: reveal 2s ease forwards;
+            transform: translateY(100%);
+        }
+
+        @keyframes reveal {
+            to { transform: translateY(0); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: rgba(255,255,255,0.6);
+            margin-top: 1rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.5s forwards;
+        }
+
+        .enter-btn {
+            margin-top: 3rem;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #d4af37;
+            padding: 1rem 3rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.3em;
+            cursor: pointer;
+            transition: all 0.5s;
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
+        }
+
+        .enter-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .sound-hint {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: #d4af37;
+            letter-spacing: 0.15em;
+            opacity: 0;
+            animation: fadeIn 1s ease 2.2s forwards, glow 2s ease-in-out infinite 2.2s;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px rgba(212, 175, 55, 0.3); }
+            50% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.8); }
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.9rem;
+            color: rgba(212, 175, 55, 0.5);
+            letter-spacing: 0.2em;
+            opacity: 0;
+            animation: fadeIn 1s ease 2.5s forwards, bounce 2s ease-in-out infinite 2.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Date reveal */
+        #date-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0a0a0a;
+        }
+
+        .date {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #d4af37;
+            opacity: 0;
+            transition: all 1s;
+        }
+
+        .date.visible { opacity: 1; }
+
+        .date-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.6);
+            font-style: italic;
+            margin-top: 1rem;
+            opacity: 0;
+            transition: all 1s 0.5s;
+        }
+
+        .date-subtitle.visible { opacity: 1; }
+
+        /* Gallery */
+        #gallery {
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, #0a0a0a 0%, #12121a 100%);
+        }
+
+        .gallery-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #d4af37;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s;
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Full screen moment - the hands */
+        #moment {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            position: relative;
+        }
+
+        .moment-image {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 10px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1.5s ease;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+        }
+
+        .moment-image.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Letter */
+        #letter {
+            min-height: 100vh;
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, #000 0%, #0a0a0a 50%, #12121a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .letter-box {
+            max-width: 700px;
+            padding: 3rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 15px;
+        }
+
+        .letter-greeting {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #d4af37;
+            margin-bottom: 2rem;
+        }
+
+        .letter-text {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .letter-text p {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.4s;
+        }
+
+        .letter-text p.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .letter-signature {
+            text-align: right;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            color: #d4af37;
+            margin-top: 2rem;
+            opacity: 0;
+            transition: all 1s;
+        }
+
+        .letter-signature.visible { opacity: 1; }
+
+        .letter-image {
+            display: block;
+            width: 100%;
+            max-width: 350px;
+            margin: 2rem auto;
+            border-radius: 10px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 1s ease;
+        }
+
+        .letter-image.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Final */
+        #final {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0a 70%);
+            text-align: center;
+        }
+
+        .final-message {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #d4af37;
+            opacity: 0;
+            transition: all 1.5s;
+        }
+
+        .final-message.visible { opacity: 1; }
+
+        .final-heart {
+            font-size: 4rem;
+            margin-top: 2rem;
+            opacity: 0;
+            transition: all 1s 0.5s;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .final-heart.visible { opacity: 1; }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Music button */
+        .music-btn {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #d4af37;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .music-btn.visible { opacity: 1; }
+        .music-btn.playing { animation: pulse 1s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .name { font-size: 3rem; letter-spacing: 0.2em; }
+            .subtitle { font-size: 1.1rem; }
+            .date { font-size: 1.5rem; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+            .letter-box { padding: 1.5rem; margin: 1rem; }
+            .letter-text { font-size: 1rem; }
+            .final-message { font-size: 1.8rem; padding: 0 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="ordinary.mp3" type="audio/mpeg">
+    </audio>
+
+    <button class="music-btn" id="musicBtn">♪</button>
+
+    <!-- Intro -->
+    <section id="intro">
+        <div class="name-container">
+            <h1 class="name">SARA</h1>
+        </div>
+        <p class="subtitle">Happy Birthday</p>
+        <button class="enter-btn" id="enterBtn">BEGIN</button>
+        <p class="sound-hint">🎵 turn your sound on 🎵</p>
+        <p class="scroll-hint">scroll down ↓</p>
+    </section>
+
+    <!-- Date -->
+    <section id="date-section">
+        <p class="date">April 6, 2024</p>
+        <p class="date-subtitle">The day everything changed</p>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery">
+        <div class="gallery-title">
+            <h2>You</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="photos/00020565-PHOTO-2024-06-19-09-26-34.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00022757-PHOTO-2024-06-27-14-01-25.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00059617-PHOTO-2024-12-24-01-53-51.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00059621-PHOTO-2024-12-25-00-22-48.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00060885-PHOTO-2025-01-01-05-10-07.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00074450-PHOTO-2025-03-14-17-55-15.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00078906-PHOTO-2025-03-31-16-40-00.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00089818-PHOTO-2025-05-16-09-55-16.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00092135-PHOTO-2025-05-26-18-53-14.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00095723-PHOTO-2025-06-06-21-41-29.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00095754-PHOTO-2025-06-07-00-06-45.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00102300-PHOTO-2025-11-12-00-55-01.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/00103811-PHOTO-2025-12-02-10-39-02.jpg" alt="Sara"></div>
+            <div class="gallery-item"><img src="photos/wedding ring.jpg" alt="Ring"></div>
+        </div>
+    </section>
+
+    <!-- The Moment - Hands -->
+    <section id="moment">
+        <img src="photos/00103560-PHOTO-2025-11-28-16-39-10.jpg" alt="Us" class="moment-image">
+    </section>
+
+    <!-- Letter -->
+    <section id="letter">
+        <div class="letter-box">
+            <p class="letter-greeting">Sara,</p>
+            <div class="letter-text">
+                <p>I don't know why I am doing this. I feel like I am being so unfair to myself because I will just keep hurting myself. But then I get a moment of calmness and I remember it's your birthday.</p>
+
+                <p>How can I be upset on the day you were born? For me, that was the happiest day in my life - that you came into this world. I couldn't not say happy birthday to the person I loved more than anything in this world.</p>
+
+                <p>The person who made me realize that the word "love" wasn't just a fantasy. The person who lightened up my world and even for a short period of time made me the happiest man alive.</p>
+
+                <p>I will not say anything negative. I will keep everything inside. Because even if things are different now, I never stopped believing, nor will I ever stop believing, that you were my true love. Despite how things ended. I know the person I fell in love with. And that's the only truth I will keep with me.</p>
+
+                <p>I know you might not like this day. But for me, I couldn't be anything but grateful and happy that I met you and fell in love with you. This whole website - I dedicated it to you. It speaks from my heart how I truly felt.</p>
+
+                <p>Wallah, I still remember that day at Mall of Emirates. Sitting in the car parking on the pavement, talking about the peanut butter kid, that awkward first hug. From that moment something inside me just knew. I knew you were different. I knew you were the one.</p>
+
+                <p>You asked me once why I never gave up on you no matter what. The answer was simple - because there was no one else I'd rather have been with. Not then. Not now. Not ever.</p>
+
+                <img src="photos/00103560-PHOTO-2025-11-28-16-39-10.jpg" alt="Us" class="letter-image">
+
+                <p>You were the only person I could spend a whole day with and still want more time. You were the only person whose smile made everything make sense. You were the only person who truly knew me - the real me - and I truly knew you - the real Sara.</p>
+
+                <p>I was your biggest fan since day one. And I will always be your biggest fan and supporter. Even from a distance. Even if you never read this. Even if you hate me. Because my love for you was never conditional. It was never "I love you if you do this" or "I love you when you're this way." It was always just... I loved you. Period. Full stop. No conditions.</p>
+
+                <p>You once told me I was the only person you could truly rely on. The only one who knew your darkness the way I did. The only one who stayed when everyone else would have left. I don't say this to remind you of what we had. I say this because it was true. I would have still stayed. I would have still chosen you. I would have still loved you through anything.</p>
+
+                <p>I know now that you were literally my biggest strength and weakness. I couldn't stop loving you - I just loved you more and more. I couldn't stay mad at you. When you were happy, I was probably the happiest man alive. When you were sad, I was probably the saddest man alive.</p>
+
+                <p>People say don't make a person your source of happiness. But you were all these things to me. Whether you read my messages, ignored them, blocked me, or whatever - I was still the same person who fell in love with you since that Mall of Emirates day.</p>
+
+                <p>This birthday, I just want you to know one thing: My heart belonged to you and you only.</p>
+
+                <p>Happy Birthday to the woman who changed my entire existence.<br>
+                Happy Birthday to my true love.<br>
+                Happy Birthday, Sara.</p>
+
+                <p>Thank you for existing.<br>
+                Thank you for being born.<br>
+                Thank you for giving me the most beautiful memories of my life.<br>
+                Thank you for being Sara.</p>
+            </div>
+            <p class="letter-signature">Thank you for Everything</p>
+        </div>
+    </section>
+
+    <!-- Final -->
+    <section id="final">
+        <p class="final-message">I will always be your biggest fan</p>
+        <div class="final-heart">♥</div>
+    </section>
+
+    <script>
+        const enterBtn = document.getElementById('enterBtn');
+        const musicBtn = document.getElementById('musicBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        let isPlaying = false;
+
+        // Enter
+        enterBtn.addEventListener('click', () => {
+            document.getElementById('date-section').scrollIntoView({ behavior: 'smooth' });
+            musicBtn.classList.add('visible');
+            bgMusic.volume = 0.5;
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicBtn.classList.add('playing');
+            }).catch(() => {});
+        });
+
+        // Music toggle
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.classList.remove('playing');
+            } else {
+                bgMusic.play();
+                musicBtn.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        // Observe elements
+        document.querySelectorAll('.date, .date-subtitle, .gallery-item, .moment-image, .letter-text p, .letter-image, .letter-signature, .final-message, .final-heart').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Stagger gallery items
+        document.querySelectorAll('.gallery-item').forEach((item, i) => {
+            item.style.transitionDelay = `${i * 0.1}s`;
+        });
+
+        // Stagger letter paragraphs - FASTER
+        document.querySelectorAll('.letter-text p').forEach((p, i) => {
+            p.style.transitionDelay = `${i * 0.1}s`;
+        });
+    </script>
+</body>
+</html>
